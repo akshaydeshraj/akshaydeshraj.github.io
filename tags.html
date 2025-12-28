@@ -6,13 +6,12 @@ permalink: /tags/
 
 <div class="tags-page">
   <h1 class="page-title" id="page-title">Tags</h1>
-  <div class="post-line"></div>
 
   <!-- All tags list (shown when no filter) -->
   <div class="tags-list" id="tags-list">
     {% assign sorted_tags = site.tags | sort %}
     {% for tag in sorted_tags %}
-      <a href="#{{ tag[0] | slugify }}" class="tag" data-tag="{{ tag[0] | slugify }}">{{ tag[0] }} ({{ tag[1].size }})</a>
+      <a href="#{{ tag[0] | slugify }}" class="tag" data-tag="{{ tag[0] | slugify }}">{{ tag[0] }}</a>
     {% endfor %}
   </div>
 

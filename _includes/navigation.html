@@ -4,9 +4,9 @@
       <h2 class="nav-title">{{ site.title }}</h2>
     </a>
     <ul>
-      <li><a href="{{ site.baseurl }}/">Posts</a></li>
-      <li><a href="{{ '/tags' | prepend: site.baseurl }}">Tags</a></li>
-      <li><a href="{{ '/about' | prepend: site.baseurl }}">About</a></li>
+      <li><a href="{{ site.baseurl }}/"{% if page.url == '/' or page.url contains '/20' %} class="active"{% endif %}>Posts</a></li>
+      <li><a href="{{ '/tags' | prepend: site.baseurl }}"{% if page.url contains '/tags' %} class="active"{% endif %}>Tags</a></li>
+      <li><a href="{{ '/about' | prepend: site.baseurl }}"{% if page.url contains '/about' %} class="active"{% endif %}>About</a></li>
       <li>
         <button class="theme-toggle" aria-label="Toggle theme" title="Toggle theme">
           <!-- Sun icon (shown in dark mode) -->

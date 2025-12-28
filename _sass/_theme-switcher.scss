@@ -10,12 +10,19 @@
   --text-secondary: #{$sol-base1};
   --title-color: #{$sol-blue};
   --link-color: #{$sol-blue};
-  --tag-bg: #{$sol-base2};
-  --tag-color: #{$sol-violet};
+  --tag-bg: rgba(42, 161, 152, 0.15);
+  --tag-color: #{$sol-cyan};
   --code-bg: #{$sol-base2};
   --code-color: #{$sol-red};
   --accent-green: #{$sol-green};
   --accent-red: #{$sol-red};
+  --accent-cyan: #{$sol-cyan};
+  --accent-orange: #{$sol-orange};
+  --accent-violet: #{$sol-violet};
+  --accent-magenta: #{$sol-magenta};
+  --accent-yellow: #{$sol-yellow};
+  --nav-link-color: #{$sol-cyan};
+  --meta-icon-color: #{$sol-cyan};
   --border-color: rgba(0, 0, 0, 0.08);
   --shadow-color: rgba(0, 0, 0, 0.1);
 }
@@ -35,6 +42,13 @@ html.theme-dark {
   --code-color: #{$sol-orange};
   --accent-green: #{$sol-green};
   --accent-red: #{$sol-orange};
+  --accent-cyan: #{$sol-cyan};
+  --accent-orange: #{$sol-orange};
+  --accent-violet: #{$sol-violet};
+  --accent-magenta: #{$sol-magenta};
+  --accent-yellow: #{$sol-yellow};
+  --nav-link-color: #{$sol-cyan};
+  --meta-icon-color: #{$sol-cyan};
   --border-color: rgba(255, 255, 255, 0.08);
   --shadow-color: rgba(0, 0, 0, 0.3);
 }
@@ -89,19 +103,71 @@ p, li, td, th, span, div {
 
   .nav-title {
     color: var(--text-emphasis) !important;
+    margin: 0;
+    line-height: 1;
   }
 
   ul {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 2.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
-  a {
-    color: var(--text-secondary) !important;
+  ul li {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  // Navigation links with animated underline
+  ul a {
+    color: var(--nav-link-color) !important;
+    text-decoration: none !important;
+    position: relative;
+    padding-bottom: 4px;
+    font-weight: 500;
+    transition: color 0.2s ease, opacity 0.2s ease;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    opacity: 0.7;
+
+    // Animated underline
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background-color: var(--nav-link-color);
+      transition: width 0.25s ease, left 0.25s ease;
+    }
 
     &:hover, &:focus {
-      color: var(--link-color) !important;
+      color: var(--nav-link-color) !important;
+      opacity: 1 !important;
+
+      &::after {
+        width: 100%;
+        left: 0;
+        background-color: var(--nav-link-color);
+      }
+    }
+
+    &.active {
+      color: var(--nav-link-color) !important;
+      opacity: 1 !important;
+
+      &::after {
+        width: 100%;
+        left: 0;
+        background-color: var(--nav-link-color);
+      }
     }
   }
 }
@@ -111,7 +177,7 @@ p, li, td, th, span, div {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -123,8 +189,8 @@ p, li, td, th, span, div {
   }
 
   svg {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     fill: currentColor;
   }
 
@@ -151,21 +217,35 @@ html.theme-dark .theme-toggle {
 code {
   background-color: var(--code-bg);
   color: var(--code-color);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
 }
 
 pre {
   background-color: var(--code-bg);
   border: 1px solid var(--border-color);
+  border-radius: 0.5rem !important;
+  padding: 1rem !important;
+  overflow-x: auto;
 
   code {
     background-color: transparent;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    padding: 0;
+    border-radius: 0;
   }
 }
 
-// Blockquotes
+// Blockquotes - colored accent border
 blockquote {
-  border-left-color: var(--border-color);
+  border-left: 3px solid var(--accent-violet);
   color: var(--text-secondary);
+  background-color: var(--bg-highlight);
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 0.5rem 0.5rem 0;
 }
 
 // Post styling
@@ -173,15 +253,7 @@ blockquote {
   color: var(--text-secondary) !important;
 }
 
-.post-line {
-  background-color: var(--link-color) !important;
-}
-
-// Catalogue items
-.catalogue-item {
-  border-bottom-color: var(--border-color) !important;
-}
-
+// Catalogue line accent
 .catalogue-line {
   background-color: var(--link-color) !important;
 }
@@ -193,21 +265,28 @@ footer {
   margin-top: 2rem;
 }
 
-// Pagination - minimal
+// Pagination
 .pagination {
   border: none !important;
 
   a {
-    color: var(--text-secondary);
+    color: var(--link-color);
     border: none !important;
+    font-weight: 500;
 
     &:hover {
-      color: var(--link-color);
+      opacity: 0.7;
     }
   }
 
   .previous, .next {
+    color: var(--link-color);
+  }
+
+  // Current page number
+  span {
     color: var(--text-secondary);
+    font-weight: 500;
   }
 }
 
@@ -299,6 +378,11 @@ main {
   display: inline-flex;
   align-items: center;
   color: var(--text-secondary) !important;
+
+  .icon {
+    color: var(--meta-icon-color);
+    fill: var(--meta-icon-color);
+  }
 }
 
 .catalogue-excerpt {
@@ -340,6 +424,11 @@ main {
   display: flex;
   align-items: center;
   color: var(--text-secondary) !important;
+
+  .icon {
+    color: var(--meta-icon-color);
+    fill: var(--meta-icon-color);
+  }
 }
 
 .post-tags {
@@ -404,24 +493,6 @@ main {
   transition: color 0.15s ease;
 }
 
-// Modern Code Blocks
-pre {
-  border-radius: 0.5rem !important;
-  padding: 1rem !important;
-  overflow-x: auto;
-
-  code {
-    font-size: 0.875rem;
-    line-height: 1.6;
-  }
-}
-
-code {
-  padding: 0.2rem 0.4rem;
-  border-radius: 0.25rem;
-  font-size: 0.875em;
-}
-
 // Syntax highlighting wrapper
 .highlight {
   border-radius: 0.5rem;
@@ -458,14 +529,28 @@ code {
   justify-content: center;
   width: 2rem;
   height: 2rem;
-  color: var(--text-secondary) !important;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 
   svg {
     fill: currentColor;
   }
 
   &:hover {
-    color: var(--link-color) !important;
+    transform: translateY(-2px);
+    opacity: 0.8;
+  }
+
+  // Give each social icon a distinct color
+  &.social-github {
+    color: var(--text-emphasis) !important;
+  }
+
+  &.social-twitter {
+    color: var(--accent-cyan) !important;
+  }
+
+  &.social-email {
+    color: var(--accent-green) !important;
   }
 }
 
@@ -475,26 +560,12 @@ code {
   margin: 0;
 }
 
-// Theme toggle - simple
-.theme-toggle {
-  border-radius: 50%;
-  width: 2rem;
-  height: 2rem;
-
-  &:hover {
-    opacity: 0.7;
-  }
-}
 
 // Tags Page
 .tags-page {
   .page-title {
     text-align: center;
     margin-bottom: 0.5rem;
-  }
-
-  .post-line {
-    margin-bottom: 2rem;
   }
 }
 
