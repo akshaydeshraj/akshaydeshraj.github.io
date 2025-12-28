@@ -1,0 +1,12 @@
+---
+# Main Sass file with Solarized theming
+---
+
+// Import Solarized color palette first
+@import "solarized";
+
+// Import the base Tale theme
+@import "tale";
+
+// Import theme switcher styles (must come after Tale to override)
+@import "theme-switcher";

@@ -25,14 +25,19 @@ description: >- # this means to ignore newlines until "baseurl:"
 # baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: akshaydeshraj
-github_username: akshaydehraj
+github_username: akshaydeshraj
+
+# Author info
+author:
+  name: Akshay Deshraj
+  twitter: akshaydeshraj
+  github: akshaydeshraj
 
 # Build settings
-remote_theme: chesterhow/tale
+theme: tale
 plugins:
   - jekyll-feed
   - jekyll-paginate
-  - jekyll-remote-theme
 
 permalink: /:year-:month-:day/:title
 paginate: 5

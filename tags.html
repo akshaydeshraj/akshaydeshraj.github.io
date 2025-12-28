@@ -1,0 +1,84 @@
+---
+layout: default
+title: Tags
+permalink: /tags/
+---
+
+<div class="tags-page">
+  <h1 class="page-title" id="page-title">Tags</h1>
+  <div class="post-line"></div>
+
+  <!-- All tags list (shown when no filter) -->
+  <div class="tags-list" id="tags-list">
+    {% assign sorted_tags = site.tags | sort %}
+    {% for tag in sorted_tags %}
+      <a href="#{{ tag[0] | slugify }}" class="tag" data-tag="{{ tag[0] | slugify }}">{{ tag[0] }} ({{ tag[1].size }})</a>
+    {% endfor %}
+  </div>
+
+  <!-- Filtered view (shown when tag selected) -->
+  <div class="filtered-view" id="filtered-view" style="display: none;">
+    <a href="{{ '/tags' | prepend: site.baseurl }}" class="back-link">&larr; All tags</a>
+  </div>
+
+  <div class="tags-posts">
+    {% for tag in sorted_tags %}
+      <section class="tag-section" id="{{ tag[0] | slugify }}" data-tag="{{ tag[0] | slugify }}">
+        <h2 class="tag-heading">{{ tag[0] }}</h2>
+        <ul class="tag-posts-list">
+          {% for post in tag[1] %}
+            <li>
+              <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+              <time datetime="{{ post.date }}">{{ post.date | date: "%b %d, %Y" }}</time>
+            </li>
+          {% endfor %}
+        </ul>
+      </section>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+(function() {
+  function filterByTag() {
+    var hash = window.location.hash.slice(1);
+    var sections = document.querySelectorAll('.tag-section');
+    var tagsList = document.getElementById('tags-list');
+    var filteredView = document.getElementById('filtered-view');
+    var pageTitle = document.getElementById('page-title');
+
+    if (hash) {
+      // Show only the matching tag section
+      var found = false;
+      sections.forEach(function(section) {
+        if (section.dataset.tag === hash) {
+          section.style.display = 'block';
+          found = true;
+          pageTitle.textContent = section.querySelector('.tag-heading').textContent;
+        } else {
+          section.style.display = 'none';
+        }
+      });
+
+      if (found) {
+        tagsList.style.display = 'none';
+        filteredView.style.display = 'block';
+      }
+    } else {
+      // Show all sections
+      sections.forEach(function(section) {
+        section.style.display = 'block';
+      });
+      tagsList.style.display = 'flex';
+      filteredView.style.display = 'none';
+      pageTitle.textContent = 'Tags';
+    }
+  }
+
+  // Run on page load
+  filterByTag();
+
+  // Run on hash change
+  window.addEventListener('hashchange', filterByTag);
+})();
+</script>

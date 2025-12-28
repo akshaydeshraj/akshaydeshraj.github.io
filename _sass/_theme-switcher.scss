@@ -1,0 +1,596 @@
+// Theme Switcher Styles
+// Uses CSS custom properties for dynamic theming
+
+:root {
+  // Light theme (Solarized Light) - default
+  --bg-color: #{$sol-base3};
+  --bg-highlight: #{$sol-base2};
+  --text-color: #{$sol-base00};
+  --text-emphasis: #{$sol-base01};
+  --text-secondary: #{$sol-base1};
+  --title-color: #{$sol-blue};
+  --link-color: #{$sol-blue};
+  --tag-bg: #{$sol-base2};
+  --tag-color: #{$sol-violet};
+  --code-bg: #{$sol-base2};
+  --code-color: #{$sol-red};
+  --accent-green: #{$sol-green};
+  --accent-red: #{$sol-red};
+  --border-color: rgba(0, 0, 0, 0.08);
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+html.theme-dark {
+  // Dark theme (Solarized Dark)
+  --bg-color: #{$sol-base03};
+  --bg-highlight: #{$sol-base02};
+  --text-color: #{$sol-base1};
+  --text-emphasis: #{$sol-base2};
+  --text-secondary: #{$sol-base0};
+  --title-color: #{$sol-blue};
+  --link-color: #{$sol-cyan};
+  --tag-bg: #{$sol-base02};
+  --tag-color: #{$sol-cyan};
+  --code-bg: #{$sol-base02};
+  --code-color: #{$sol-orange};
+  --accent-green: #{$sol-green};
+  --accent-red: #{$sol-orange};
+  --border-color: rgba(255, 255, 255, 0.08);
+  --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+// Apply theme colors
+html, body {
+  background-color: var(--bg-color) !important;
+  color: var(--text-color) !important;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+// Override Tale theme colors with CSS variables
+a {
+  color: var(--link-color) !important;
+
+  &:hover, &:focus {
+    opacity: 0.7;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-emphasis) !important;
+}
+
+// Post titles - use distinct title color (blue)
+.catalogue-title,
+.catalogue-title a,
+.post-title a,
+.post-title {
+  color: var(--title-color) !important;
+
+  &:hover, &:focus {
+    opacity: 0.7;
+  }
+}
+
+// Ensure paragraph and content text uses proper color
+p, li, td, th, span, div {
+  color: inherit;
+}
+
+// Navigation - clean, no border
+.nav {
+  background-color: var(--bg-color) !important;
+  border-bottom: none !important;
+
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-title {
+    color: var(--text-emphasis) !important;
+  }
+
+  ul {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  a {
+    color: var(--text-secondary) !important;
+
+    &:hover, &:focus {
+      color: var(--link-color) !important;
+    }
+  }
+}
+
+// Theme toggle button
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-color);
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: var(--link-color);
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+  }
+
+  .sun-icon {
+    display: none;
+  }
+
+  .moon-icon {
+    display: block;
+  }
+}
+
+html.theme-dark .theme-toggle {
+  .sun-icon {
+    display: block;
+  }
+
+  .moon-icon {
+    display: none;
+  }
+}
+
+// Code blocks
+code {
+  background-color: var(--code-bg);
+  color: var(--code-color);
+}
+
+pre {
+  background-color: var(--code-bg);
+  border: 1px solid var(--border-color);
+
+  code {
+    background-color: transparent;
+  }
+}
+
+// Blockquotes
+blockquote {
+  border-left-color: var(--border-color);
+  color: var(--text-secondary);
+}
+
+// Post styling
+.post-info {
+  color: var(--text-secondary) !important;
+}
+
+.post-line {
+  background-color: var(--link-color) !important;
+}
+
+// Catalogue items
+.catalogue-item {
+  border-bottom-color: var(--border-color) !important;
+}
+
+.catalogue-line {
+  background-color: var(--link-color) !important;
+}
+
+// Footer - no border, just spacing
+footer {
+  color: var(--text-secondary) !important;
+  border-top: none !important;
+  margin-top: 2rem;
+}
+
+// Pagination - minimal
+.pagination {
+  border: none !important;
+
+  a {
+    color: var(--text-secondary);
+    border: none !important;
+
+    &:hover {
+      color: var(--link-color);
+    }
+  }
+
+  .previous, .next {
+    color: var(--text-secondary);
+  }
+}
+
+// ===========================================
+// Modern UI Components
+// ===========================================
+
+// Icon styling
+.icon {
+  fill: currentColor;
+  vertical-align: middle;
+  margin-right: 0.25rem;
+}
+
+// Tags - filled background, no border
+.tag {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  margin: 0.125rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: lowercase;
+  background-color: var(--tag-bg);
+  color: var(--tag-color) !important;
+  border: none;
+  border-radius: 3px;
+  text-decoration: none !important;
+  transition: opacity 0.15s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.catalogue-tags,
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+// Add top spacing to main content
+main {
+  padding-top: 2rem !important;
+}
+
+// Catalogue Items - Clean, no borders
+.catalogue-item {
+  display: block;
+  padding: 0 0 2rem 0;
+  margin-bottom: 0;
+  border-bottom: none;
+  text-decoration: none !important;
+
+  &:hover .catalogue-title {
+    opacity: 0.7;
+  }
+}
+
+.catalogue-link {
+  text-decoration: none !important;
+}
+
+.catalogue-content {
+  display: block;
+}
+
+.catalogue-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  color: var(--title-color) !important;
+  transition: opacity 0.15s ease;
+}
+
+.catalogue-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary) !important;
+  margin-bottom: 0.5rem;
+}
+
+.catalogue-time,
+.catalogue-read-time {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-secondary) !important;
+}
+
+.catalogue-excerpt {
+  color: var(--text-color) !important;
+  margin: 0.5rem 0 0 0;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+// Post Header
+.post-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.post-title {
+  font-size: 2.5rem;
+  margin: 0 0 0.5rem 0;
+  color: var(--title-color) !important;
+}
+
+// Remove the post-line decoration
+.post-line {
+  display: none;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary) !important;
+  margin: 1rem 0;
+}
+
+.post-date,
+.post-read-time {
+  display: flex;
+  align-items: center;
+  color: var(--text-secondary) !important;
+}
+
+.post-tags {
+  justify-content: center;
+}
+
+.post-content {
+  line-height: 1.8;
+
+  h2, h3, h4 {
+    margin-top: 2rem;
+  }
+
+  img {
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px var(--shadow-color);
+  }
+}
+
+// Post Navigation - minimal
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3rem;
+  padding-top: 0;
+}
+
+.post-nav-item {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none !important;
+  max-width: 45%;
+
+  &:hover .post-nav-title {
+    opacity: 0.7;
+  }
+}
+
+.post-nav-prev {
+  align-items: flex-start;
+}
+
+.post-nav-next {
+  align-items: flex-end;
+  text-align: right;
+  margin-left: auto;
+}
+
+.post-nav-label {
+  display: flex;
+  align-items: center;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary) !important;
+  margin-bottom: 0.25rem;
+}
+
+.post-nav-title {
+  font-size: 0.9rem;
+  color: var(--text-emphasis) !important;
+  transition: color 0.15s ease;
+}
+
+// Modern Code Blocks
+pre {
+  border-radius: 0.5rem !important;
+  padding: 1rem !important;
+  overflow-x: auto;
+
+  code {
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+}
+
+code {
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+}
+
+// Syntax highlighting wrapper
+.highlight {
+  border-radius: 0.5rem;
+  overflow: hidden;
+
+  pre {
+    margin: 0;
+    border: none !important;
+  }
+}
+
+// Footer
+.footer {
+  padding: 2rem 0;
+  text-align: center;
+}
+
+.footer-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.footer-social {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  color: var(--text-secondary) !important;
+
+  svg {
+    fill: currentColor;
+  }
+
+  &:hover {
+    color: var(--link-color) !important;
+  }
+}
+
+.footer-copy {
+  font-size: 0.85rem;
+  color: var(--text-secondary) !important;
+  margin: 0;
+}
+
+// Theme toggle - simple
+.theme-toggle {
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+// Tags Page
+.tags-page {
+  .page-title {
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .post-line {
+    margin-bottom: 2rem;
+  }
+}
+
+.tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+
+.tags-posts {
+  margin-top: 2rem;
+}
+
+.tag-section {
+  margin-bottom: 2rem;
+}
+
+.tag-heading {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-emphasis) !important;
+}
+
+.tag-posts-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.5rem 0;
+    gap: 1rem;
+
+    a {
+      flex: 1;
+    }
+
+    time {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+  }
+}
+
+.filtered-view {
+  margin-bottom: 1.5rem;
+}
+
+.back-link {
+  font-size: 0.85rem;
+  color: var(--text-secondary) !important;
+
+  &:hover {
+    color: var(--link-color) !important;
+  }
+}
+
+// Page layout (for About, etc.)
+.page {
+  .page-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .page-title {
+    font-size: 2rem;
+    color: var(--text-emphasis) !important;
+  }
+
+  .page-content {
+    line-height: 1.8;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 600px) {
+  .post-title {
+    font-size: 1.75rem;
+  }
+
+  .catalogue-title {
+    font-size: 1.25rem;
+  }
+
+  .post-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .post-nav-next {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
