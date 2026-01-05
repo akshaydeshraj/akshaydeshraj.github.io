@@ -11,7 +11,7 @@ permalink: /tags/
   <div class="tags-list" id="tags-list">
     {% assign sorted_tags = site.tags | sort %}
     {% for tag in sorted_tags %}
-      <a href="#{{ tag[0] | slugify }}" class="tag" data-tag="{{ tag[0] | slugify }}">{{ tag[0] }}</a>
+      <a href="#{{ tag[0] | slugify }}" class="tag">{{ tag[0] }}</a>
     {% endfor %}
   </div>
 
