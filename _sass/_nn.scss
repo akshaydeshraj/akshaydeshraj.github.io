@@ -1,0 +1,128 @@
+// nn-explorations — the interactive post, kept close to its standalone form
+// but living inside the blog. Chart colours are read by charts.js off :root,
+// so they sit at the top level and follow the blog's light/dark switch.
+
+:root {
+  --serif: 'et-book', Palatino, 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+  --mono: 'SF Mono', 'Menlo', 'Consolas', ui-monospace, monospace;
+  --paper: #{$sol-base3};
+  --page: #{$sol-base2};
+  --ink: #{$sol-base01};
+  --secondary: #{$sol-base00};
+  --muted: #{$sol-base1};
+  --grid: #e3dcc4;
+  --rule: #d9d2bb;
+  --c0: #{$sol-blue};
+  --c1: #{$sol-orange};
+  --c2: #{$sol-violet};
+}
+html.theme-dark {
+  --paper: #{$sol-base03};
+  --page: #00212b;
+  --ink: #{$sol-base1};
+  --secondary: #{$sol-base0};
+  --muted: #{$sol-base00};
+  --grid: #{$sol-base02};
+  --rule: #0b3b47;
+}
+
+// full-width layout for this one post (blog posts stay at 800px)
+main.nn-main { max-width: 1400px; }
+.nn-post,
+.nn-post .post-content { max-width: none; width: 100%; }
+
+.nn-viz {
+  section { margin: 4rem 0 0; padding-top: 2.5rem; border-top: 1px solid var(--rule); }
+  section:first-of-type { margin-top: 2rem; }
+  h2 { font-weight: 400; font-size: 1.8rem; margin: 0.4rem 0 0.2rem; letter-spacing: -0.01em; line-height: 1.15; }
+  h2 .em { font-style: italic; }
+
+  .tag {
+    font-family: var(--mono) !important;
+    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--c1); background: transparent !important; padding: 0 !important;
+    border-radius: 0 !important; display: block;
+  }
+  .claim {
+    border-left: 2px solid var(--ink); padding: 0.1rem 0 0.1rem 1.1rem; margin: 1.4rem 0;
+    font-style: italic; font-size: 1.18rem; color: var(--secondary); max-width: 40em;
+  }
+  .body { max-width: 40em; }
+  .body p { font-size: 1.08rem; }
+
+  figure { margin: 2rem 0; max-width: none; clear: both; }
+  .plot-row { display: grid; gap: 1.4rem; }
+  .plot-2 { grid-template-columns: 1fr 1fr; }
+  .plot-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .panel h3 {
+    font-family: var(--mono) !important; font-weight: 400; font-size: 0.76rem;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+    margin: 0 0 0.5rem; display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .panel h3 .acc { font-size: 1.05rem; color: var(--ink); font-variant-numeric: tabular-nums; }
+  canvas { display: block; width: 100%; border: 1px solid var(--grid); background: var(--paper); }
+  figcaption { font-size: 0.95rem; color: var(--secondary); line-height: 1.4; margin-top: 0.9rem; max-width: 46em; }
+  figcaption .lbl { font-family: var(--mono) !important; font-size: 0.82rem; }
+
+  .readout {
+    font-family: var(--mono) !important; font-size: 0.86rem; color: var(--secondary);
+    background: var(--page); border: 1px solid var(--grid);
+    padding: 0.7rem 0.9rem; margin: 1rem 0; line-height: 1.5; overflow-x: auto;
+  }
+  .legend { display: flex; flex-wrap: wrap; gap: 1.1rem; font-size: 0.9rem; color: var(--secondary); margin: 0.4rem 0 0; }
+  .legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+  .dot { width: 0.62rem; height: 0.62rem; border-radius: 50%; display: inline-block; }
+
+  .btn {
+    font-family: var(--mono) !important; font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase;
+    background: transparent; color: var(--ink); border: 1px solid var(--ink); border-radius: 0;
+    padding: 0.42rem 0.9rem; cursor: pointer; transition: background 0.12s, color 0.12s;
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .controls { margin: 1.2rem 0 0; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .controls .hint { font-size: 0.9rem; color: var(--muted); font-style: italic; }
+
+  .params {
+    clear: both; display: flex; flex-wrap: wrap; gap: 0.7rem 1.5rem; align-items: center;
+    margin: 1.6rem 0 0; padding: 0.85rem 0;
+    border-top: 1px solid var(--grid); border-bottom: 1px solid var(--grid);
+  }
+  .params label {
+    font-family: var(--mono) !important; font-size: 0.7rem; letter-spacing: 0.11em;
+    text-transform: uppercase; color: var(--muted); display: inline-flex; align-items: baseline; gap: 0.5rem;
+  }
+  .params input {
+    font-family: var(--mono) !important; font-size: 0.95rem; letter-spacing: 0; color: var(--ink);
+    background: transparent; border: none; border-bottom: 1px solid var(--ink);
+    padding: 0.12rem 0.2rem; width: 4.2rem; text-align: left;
+  }
+  .params input:focus { outline: none; border-bottom-color: var(--c1); }
+  .params input::placeholder { color: var(--muted); }
+  .params input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
+  .params input[type="number"]::-webkit-outer-spin-button,
+  .params input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .params select {
+    font-family: var(--mono) !important; font-size: 0.95rem; color: var(--ink);
+    background: transparent; border: none; border-bottom: 1px solid var(--ink);
+    padding: 0.12rem 1.3rem 0.12rem 0.2rem; cursor: pointer; -webkit-appearance: none; appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+    background-position: right 0.45rem center, right 0.15rem center;
+    background-size: 5px 5px, 5px 5px; background-repeat: no-repeat;
+  }
+  .params select:focus { outline: none; border-bottom-color: var(--c1); }
+  .params select option { color: var(--ink); background: var(--paper); }
+  .params .btn { padding: 0.34rem 1.1rem; }
+  .params .phint { flex-basis: 100%; font-style: italic; font-size: 0.9rem; color: var(--muted); text-transform: none; letter-spacing: 0; }
+
+  .note { margin: 1.8rem 0 0; max-width: 46em; }
+  .note .mlabel { font-family: var(--mono) !important; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--c1); margin-bottom: 0.5rem; }
+  .note p { font-size: 0.98rem; color: var(--secondary); line-height: 1.5; margin: 0 0 0.7rem; }
+  .note .readout { margin: 0.8rem 0; }
+  .matrix-eq { display: flex; flex-direction: column; gap: 0.3rem; }
+  .matrix-eq .req-label { display: inline-block; width: 13rem; color: var(--muted); }
+  .panel-gap { max-width: 600px; }
+
+  @media (max-width: 1080px) {
+    .plot-3, .plot-2 { grid-template-columns: 1fr; }
+  }
+}

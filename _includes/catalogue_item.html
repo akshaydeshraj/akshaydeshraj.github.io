@@ -30,7 +30,9 @@
   {% endif %}
 
   <p class="catalogue-excerpt">
-    {% if post.excerpt_separator %}
+    {% if post.description %}
+      {{ post.description }}
+    {% elsif post.excerpt_separator %}
       {{ post.excerpt | strip_html | truncatewords: 25 }}
     {% else %}
       {{ post.content | strip_html | truncatewords: 25 }}

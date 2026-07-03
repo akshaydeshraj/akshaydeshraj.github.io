@@ -1,0 +1,40 @@
+// ET Book — the typeface from Edward Tufte's books, matching the
+// nn-explorations page. Served from jsDelivr (edwardtufte/tufte-css, MIT).
+@font-face {
+  font-family: 'et-book';
+  src: url('https://cdn.jsdelivr.net/gh/edwardtufte/tufte-css/et-book/et-book-roman-line-figures/et-book-roman-line-figures.woff') format('woff');
+  font-weight: normal; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'et-book';
+  src: url('https://cdn.jsdelivr.net/gh/edwardtufte/tufte-css/et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.woff') format('woff');
+  font-weight: normal; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'et-book';
+  src: url('https://cdn.jsdelivr.net/gh/edwardtufte/tufte-css/et-book/et-book-bold-line-figures/et-book-bold-line-figures.woff') format('woff');
+  font-weight: bold; font-style: normal; font-display: swap;
+}
+
+$et-serif: 'et-book', Palatino, 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+$et-mono: 'SF Mono', 'Menlo', 'Consolas', ui-monospace, monospace;
+
+html, body,
+h1, h2, h3, h4, h5, h6,
+p, a, li, blockquote, em, strong, small, time, span,
+.post-title, .page-title, .post-content, .post-meta, .site-title,
+nav, header, footer, .tag, .tags-page {
+  font-family: $et-serif !important;
+}
+
+code, pre, kbd, samp, tt {
+  font-family: $et-mono !important;
+}
+
+// ET Book ships only roman (400) and a heavy bold (700). The tale theme's
+// 700 titles render as a squished bold, so use the roman weight for headings
+// and titles, matching the nn page (which sets font-weight: 400).
+h1, h2, h3, h4, h5, h6,
+.post-title, .page-title, .catalogue-title, .nav-title, .site-title, .tag-heading {
+  font-weight: 400 !important;
+}

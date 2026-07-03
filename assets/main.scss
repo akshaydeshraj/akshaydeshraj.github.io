@@ -10,3 +10,9 @@
 
 // Import theme switcher styles (must come after Tale to override)
 @import "theme-switcher";
+
+// ET Book typography (match the nn-explorations page)
+@import "etbook";
+
+// nn-explorations post (scoped, full-width)
+@import "nn";

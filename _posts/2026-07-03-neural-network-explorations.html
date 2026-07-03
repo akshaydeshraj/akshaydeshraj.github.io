@@ -1,0 +1,461 @@
+---
+layout: nn
+title: "Neural network explorations"
+date: 2026-07-03 20:00:00 +0530
+tags: [neural-networks]
+description: "Four small neural networks, each trained live in the browser."
+---
+
+<div class="nn-viz">
+    <div class="controls">
+                    <button class="btn" id="run-all">Re-run everything</button>
+                    <span class="hint"
+                        >each run draws fresh random data and trains from
+                        zero</span
+                    >
+                </div>
+
+<section id="sec1">
+                <div class="tag">Exploration 01</div>
+                <h2>
+                    Why does a net
+                    <span class="em">need a nonlinearity at all?</span>
+                </h2>
+                <p class="claim">
+                    A hidden layer with no activation can only draw a straight boundary, so it can’t separate two interleaved rings. Add an activation and it can.
+                    </p>
+
+                <div class="body">
+                    <p>
+                        Two noisy rings: the inner disc is class 0, the outer band is class 1. No straight line separates them. Both panels use the same network, and the only thing that changes is whether the hidden layer has an activation. Without one it can only draw a straight line and stalls near chance; with one it wraps the ring. Switch the activation to see how each one bends the boundary.
+                    </p>
+                </div>
+
+                <div class="params">
+                    <label
+                        >Hidden activation
+                        <select id="s1-act">
+                            <option value="relu" selected>relu</option>
+                            <option value="gelu">gelu</option>
+                            <option value="tanh">tanh</option>
+                            <option value="sigmoid">sigmoid</option>
+                        </select></label
+                    >
+                    <label
+                        >Hidden layers
+                        (1 to 4) <input
+                            id="s1-layers"
+                            data-sec="s1"
+                            type="number" min="1" max="4" step="1"
+                            value="1"
+                    /></label>
+                    <label
+                        >Units / layer
+                        (2 to 64) <input
+                            id="s1-units"
+                            data-sec="s1"
+                            type="number" min="2" max="64" step="1"
+                            value="16"
+                    /></label>
+                    <label
+                        >Ring noise
+                        <select id="s1-noise">
+                            <option value="0.10">low</option>
+                            <option value="0.17" selected>medium</option>
+                            <option value="0.28">high</option>
+                        </select></label>
+                    <label
+                        >Steps
+                        (50 to 3000) <input
+                            id="s1-steps"
+                            data-sec="s1"
+                            type="number" min="50" max="3000" step="10"
+                            value="500"
+                    /></label>
+                    <label
+                        >Learning rate
+                        (0.0005 to 0.5) <input
+                            id="s1-lr"
+                            data-sec="s1"
+                            type="number" min="0.0005" max="0.5" step="0.005"
+                            value="0.05"
+                    /></label>
+                    <button class="btn" id="s1-run">Train ▸</button>
+                </div>
+
+                <figure>
+                    <div class="plot-row plot-3">
+                        <div class="panel">
+                            <h3><span>No activation</span><span class="acc" id="s1-linear-acc">—</span></h3>
+                            <canvas id="s1-linear"></canvas>
+                        </div>
+                        <div class="panel">
+                            <h3><span>With activation</span><span class="acc" id="s1-relu-acc">—</span></h3>
+                            <canvas id="s1-relu"></canvas>
+                        </div>
+                        <div class="panel">
+                            <h3><span>Training loss</span></h3>
+                            <canvas id="s1-loss"></canvas>
+                        </div>
+                    </div>
+                    <div class="legend">
+                        <span><i class="dot" style="background: var(--c0)"></i> class 0 · inner</span>
+                        <span><i class="dot" style="background: var(--c1)"></i> class 1 · outer</span>
+                        <span>dark contour = decision boundary (p = 0.5)</span>
+                    </div>
+                    <figcaption>
+                        <span class="lbl">Fig. 1</span> The no-activation boundary is a straight line across both rings. With an activation it closes into a loop around the inner disc. In the loss curve, the straight-line model stays flat while the activated one drops to near zero.
+                    </figcaption>
+                </figure>
+            </section>
+
+            <!-- ===================== 02 : depth needs nonlinearity ===================== -->
+            <section id="sec2">
+                <div class="tag">Exploration 02</div>
+                <h2>
+                    Does stacking layers
+                    <span class="em">actually add power?</span>
+                </h2>
+                <p class="claim">
+                    Several stacked linear layers collapse to a single linear map, so a deep linear network is no more expressive than one layer. A nonlinearity between the layers changes that.
+                    </p>
+
+                <div class="body">
+                    <p>
+                        Left: a single linear layer.<br />
+                        Middle: several linear layers with no activations.<br />
+                        Right: the same stack with a nonlinearity between each pair.
+                    </p>
+                    <p>
+                        Change the depth, width, or activation: the two all-linear panels stay a straight line, only the nonlinear one bends.
+                    </p>
+                </div>
+
+                <div class="params">
+                    <label
+                        >Hidden activation
+                        <select id="s2-act">
+                            <option value="relu" selected>relu</option>
+                            <option value="gelu">gelu</option>
+                            <option value="tanh">tanh</option>
+                        </select></label
+                    >
+                    <label
+                        >Linear layers
+                        (2 to 10) <input
+                            id="s2-depth"
+                            data-sec="s2"
+                            type="number" min="2" max="10" step="1"
+                            value="5"
+                    /></label>
+                    <label
+                        >Hidden width
+                        (2 to 64) <input
+                            id="s2-width"
+                            data-sec="s2"
+                            type="number" min="2" max="64" step="1"
+                            value="16"
+                    /></label>
+                    <label
+                        >Steps
+                        (50 to 3000) <input
+                            id="s2-steps"
+                            data-sec="s2"
+                            type="number" min="50" max="3000" step="10"
+                            value="900"
+                    /></label>
+                    <label
+                        >Learning rate
+                        (0.0005 to 0.5) <input
+                            id="s2-lr"
+                            data-sec="s2"
+                            type="number" min="0.0005" max="0.5" step="0.005"
+                            value="0.02"
+                    /></label>
+                    <button class="btn" id="s2-run">Train ▸</button>
+                </div>
+
+                <figure>
+                    <div class="plot-row plot-3">
+                        <div class="panel">
+                            <h3>
+                                <span>1 linear layer</span
+                                ><span class="acc" id="s2-one-acc">—</span>
+                            </h3>
+                            <canvas id="s2-one"></canvas>
+                        </div>
+                        <div class="panel">
+                            <h3>
+                                <span>Deep · all linear</span
+                                ><span class="acc" id="s2-five-acc">—</span>
+                            </h3>
+                            <canvas id="s2-five"></canvas>
+                        </div>
+                        <div class="panel">
+                            <h3>
+                                <span>Deep · nonlinear</span
+                                ><span class="acc" id="s2-relu-acc">—</span>
+                            </h3>
+                            <canvas id="s2-relu"></canvas>
+                        </div>
+                    </div>
+                    <div class="legend">
+                        <span
+                            ><i class="dot" style="background: var(--c0)"></i>
+                            class 0 · inner</span
+                        >
+                        <span
+                            ><i class="dot" style="background: var(--c1)"></i>
+                            class 1 · outer</span
+                        >
+                        <span>dark contour = decision boundary (p = 0.5)</span>
+                    </div>
+                    <figcaption>
+                        <span class="lbl">Fig. 2</span> The single linear layer and the deep all-linear stack draw the same straight boundary and reach the same accuracy. Only the stack with a nonlinearity bends its boundary around the ring.
+                    </figcaption>
+                </figure>
+                <div class="note">
+                    <div class="mlabel">what this shows</div>
+                    <p>
+                        Each linear layer just multiplies its input by a weight matrix. Stacking
+                        several with no activation between them chains those multiplications, and a
+                        chain of matrix multiplications is itself a single matrix. So multiplying the
+                        deep-linear panel’s trained weight matrices together collapses its whole stack
+                        into one matrix, the same 1×2 shape as the single linear layer. Here are the
+                        single layer’s weights next to the deep stack’s collapsed product, both
+                        computed live from the current weights:
+                    </p>
+                    <div class="readout matrix-eq">
+                        <div><span class="req-label">single linear layer</span><span id="s2-one-w">…</span></div>
+                        <div><span class="req-label">deep stack, collapsed</span><span id="s2-matrix">…</span></div>
+                    </div>
+                    <p>
+                        The two rows are the same numbers. The deep stack computes the identical linear
+                        map, which is why its panel draws the same boundary as the single layer.
+                    </p>
+                </div>
+            </section>
+
+            <!-- ===================== 03 : embeddings ===================== -->
+            <section id="sec3">
+                <div class="tag">Exploration 03</div>
+                <h2>
+                    Can a model learn similarity
+                    <span class="em">from next-token alone?</span>
+                </h2>
+                <p class="claim">
+                    Trained only to predict the next token in a tiny
+                    grammar, an embedding table starts clustering related
+                    tokens, even though similarity was never part of the
+                    training signal.
+                </p>
+
+                <div class="body">
+                    <p>
+                        A toy language with a single template:
+                        <code>the &lt;animal&gt; &lt;verb&gt; the &lt;fruit&gt;</code>. The
+                        categories are animals (cat, dog, cow), verbs (eat, chase, see), and
+                        fruits (apple, mango, banana), plus “the”. Because every animal is
+                        followed by a verb, all animals share the same next-token distribution,
+                        and the same holds within the verb and fruit categories.
+                    </p>
+                    <p>
+                        One embedding table feeds a softmax over the next token. Tokens that
+                        share a next-token distribution end up with similar embeddings, so
+                        same-category tokens land close together. After training, the embeddings
+                        are projected to 2D and the categories separate.
+                    </p>
+                </div>
+
+                <div class="params">
+                    <label
+                        >Embedding dim
+                        (1 to 32) <input
+                            id="s3-dim"
+                            data-sec="s3"
+                            type="number" min="1" max="32" step="1"
+                            value="8"
+                    /></label>
+                    <label
+                        >Sentences
+                        (20 to 3000) <input
+                            id="s3-sent"
+                            data-sec="s3"
+                            type="number" min="20" max="3000" step="10"
+                            value="600"
+                    /></label>
+                    <label
+                        >Steps
+                        (100 to 8000) <input
+                            id="s3-steps"
+                            data-sec="s3"
+                            type="number" min="100" max="8000" step="50"
+                            value="2600"
+                    /></label>
+                    <label
+                        >Learning rate
+                        (0.0005 to 0.5) <input
+                            id="s3-lr"
+                            data-sec="s3"
+                            type="number" min="0.0005" max="0.5" step="0.005"
+                            value="0.06"
+                    /></label>
+                    <button class="btn" id="s3-run">Train ▸</button>
+                </div>
+
+                <figure>
+                    <div class="plot-row plot-2">
+                        <div class="panel">
+                            <h3><span>Embeddings → 2D</span></h3>
+                            <canvas id="s3-embed"></canvas>
+                        </div>
+                        <div class="panel">
+                            <h3><span>Next-token loss</span></h3>
+                            <canvas id="s3-loss"></canvas>
+                        </div>
+                    </div>
+                    <div class="legend">
+                        <span
+                            ><i class="dot" style="background: var(--c0)"></i>
+                            animals</span
+                        >
+                        <span
+                            ><i class="dot" style="background: var(--c1)"></i>
+                            fruits</span
+                        >
+                        <span
+                            ><i class="dot" style="background: var(--c2)"></i>
+                            verbs</span
+                        >
+                        <span
+                            ><i
+                                class="dot"
+                                style="background: var(--muted)"
+                            ></i>
+                            the</span
+                        >
+                    </div>
+                    <div class="readout" id="s3-neighbors">training…</div>
+                    <figcaption>
+                        <span class="lbl">Fig. 3</span> Each dot is a token, placed by its learned embedding projected to 2D and coloured by category. Same-category tokens land near each other, and the right panel is the next-token training loss. At embedding dimension 2 nothing is lost to the 2D projection, so the plot shows the true geometry.
+                    </figcaption>
+                </figure>
+            </section>
+
+            <!-- ===================== 04 : memorization vs generalization ===================== -->
+            <section id="sec4">
+                <div class="tag">Exploration 04</div>
+                <h2>
+                    When does a model
+                    <span class="em">memorize instead of learn?</span>
+                </h2>
+                <p class="claim">
+                    A high-capacity model on tiny data
+                    drives its training loss to almost zero while held-out
+                    performance stays bad. More data closes the gap.
+                </p>
+
+                <div class="body">
+                    <p>
+                        An over-parameterized network (two hidden layers) is trained on two
+                        overlapping blobs, with a fraction of the training labels flipped to add
+                        noise. The same network is trained three times: on 20, 200, and 2000
+                        points.
+                    </p>
+                    <p>
+                        Accuracy is scored against the true labels for both the training points and a held-out set, so the gap between the two is a real generalization gap. The training loss (bottom chart) is scored against the noisy labels the network actually fits: with 20 points it drives that loss to zero by memorizing the noise, with 2000 it cannot, so it settles on the real boundary. The decision boundary goes from jagged and overfit to smooth as the data grows.
+                    </p>
+                </div>
+
+                <div class="params">
+                    <label
+                        >Hidden width
+                        (2 to 128) <input
+                            id="s4-width"
+                            data-sec="s4"
+                            type="number" min="2" max="128" step="1"
+                            value="40"
+                    /></label>
+                    <label
+                        >Label noise
+                        (0 to 0.5) <input
+                            id="s4-noise"
+                            data-sec="s4"
+                            type="number" min="0" max="0.5" step="0.01"
+                            value="0.08"
+                    /></label>
+                    <label
+                        >Steps
+                        (100 to 5000) <input
+                            id="s4-steps"
+                            data-sec="s4"
+                            type="number" min="100" max="5000" step="10"
+                            value="1600"
+                    /></label>
+                    <label
+                        >Learning rate
+                        (0.0005 to 0.5) <input
+                            id="s4-lr"
+                            data-sec="s4"
+                            type="number" min="0.0005" max="0.5" step="0.005"
+                            value="0.02"
+                    /></label>
+                    <button class="btn" id="s4-run">Train ▸</button>
+                    <span class="phint"
+                        >label noise = fraction of flipped labels</span
+                    >
+                </div>
+
+                <figure>
+                    <div class="plot-row plot-3">
+                        <div class="panel">
+                            <h3><span>n = 20</span></h3>
+                            <canvas id="s4-b20"></canvas>
+                        </div>
+                        <div class="panel">
+                            <h3><span>n = 200</span></h3>
+                            <canvas id="s4-b200"></canvas>
+                        </div>
+                        <div class="panel">
+                            <h3><span>n = 2000</span></h3>
+                            <canvas id="s4-b2000"></canvas>
+                        </div>
+                    </div>
+                    <div class="panel panel-gap" style="margin-top: 1.6rem">
+                        <h3><span>Generalization gap vs dataset size</span></h3>
+                        <canvas id="s4-gap"></canvas>
+                    </div>
+                    <div class="legend">
+                        <span
+                            ><i class="dot" style="background: var(--c1)"></i>
+                            train accuracy</span
+                        >
+                        <span
+                            ><i class="dot" style="background: var(--c0)"></i>
+                            test accuracy</span
+                        >
+                        <span>shaded band = the gap</span>
+                    </div>
+                    <div class="panel panel-gap" style="margin-top: 1.6rem">
+                        <h3><span>Training loss vs steps</span></h3>
+                        <canvas id="s4-loss"></canvas>
+                    </div>
+                    <div class="legend">
+                        <span><i class="dot" style="background: #6c71c4"></i> n = 20</span>
+                        <span><i class="dot" style="background: #2aa198"></i> n = 200</span>
+                        <span><i class="dot" style="background: #d33682"></i> n = 2000</span>
+                    </div>
+                    <div class="readout" id="s4-table">
+                        training three models…
+                    </div>
+                    <figcaption>
+                        <span class="lbl">Fig. 4</span> The three panels show the decision boundary at 20, 200, and 2000 points, smoother with more data. The right-hand chart plots training and test accuracy against dataset size; the shaded band between them is the gap, wide at 20 and nearly closed by 2000. The bottom chart is each network’s training loss over steps: it falls to zero for n = 20, which memorizes the noise, and stays high for n = 2000, which cannot.
+                    </figcaption>
+                </figure>
+            </section>
+</div>
+
+<script src="/assets/nn/nn.js"></script>
+<script src="/assets/nn/charts.js"></script>
+<script src="/assets/nn/experiments.js"></script>
+<script src="/assets/nn/main.js"></script>
