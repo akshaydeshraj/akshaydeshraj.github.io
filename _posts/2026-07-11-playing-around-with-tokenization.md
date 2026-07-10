@@ -26,14 +26,16 @@ Current run:
 | Telugu | 7,370 | 8,509 | 1.1545 |
 | Malayalam | 11,191 | 13,090 | 1.1697 |
 
-Vocab size: 10,000  
-Unknown tokens: 0  
-Fertility spread: 0.0452  
-Score: 22,122.11
+| Metric | Value |
+| --- | ---: |
+| Vocab size | 10,000 |
+| Unknown tokens | 0 |
+| Fertility spread | 0.0452 |
+| Score | 22,122.11 |
 
-Artifacts:
-
-- [tokenizer.json](/assets/tokenizers/tokenizer.json)
-- [stats.json](/assets/tokenizers/stats.json)
+| Artifact | Link |
+| --- | --- |
+| Tokenizer | [tokenizer.json](/assets/tokenizers/tokenizer.json) |
+| Run stats | [stats.json](/assets/tokenizers/stats.json) |
 
 The useful bit for me was seeing the split clearly: byte fallback buys coverage, BPE buys compression, and the last few thousand tokens buy balance against the specific text you expect to see.
