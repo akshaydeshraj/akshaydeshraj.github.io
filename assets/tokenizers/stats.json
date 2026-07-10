@@ -1,0 +1,36 @@
+{
+  "policy": "markdown",
+  "vocab_size": 10000,
+  "languages": [
+    {
+      "lang": "en",
+      "words": 10363,
+      "tokens": 12433,
+      "fertility": 1.1997491074013316
+    },
+    {
+      "lang": "hi",
+      "words": 15709,
+      "tokens": 18357,
+      "fertility": 1.1685657903112865
+    },
+    {
+      "lang": "te",
+      "words": 7370,
+      "tokens": 8509,
+      "fertility": 1.1545454545454545
+    },
+    {
+      "lang": "ml",
+      "words": 11191,
+      "tokens": 13090,
+      "fertility": 1.1696899294075596
+    }
+  ],
+  "max_fertility": 1.1997491074013316,
+  "min_fertility": 1.1545454545454545,
+  "spread": 0.04520365285587702,
+  "score": 22122.105998563962,
+  "english_ok": true,
+  "has_unk": false
+}
