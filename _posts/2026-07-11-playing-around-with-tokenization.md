@@ -83,11 +83,11 @@ After training the BPE, I used the remaining vocabulary budget for frequent word
     <tbody>
       <tr>
         <th scope="row">Tokenizer</th>
-        <td><a href="/assets/tokenizers/tokenizer.json">tokenizer.json</a></td>
+        <td><a href="/assets/tokenizers/tokenizer.json" download="tokenizer.json">tokenizer.json</a></td>
       </tr>
       <tr>
         <th scope="row">Run stats</th>
-        <td><a href="/assets/tokenizers/stats.json">stats.json</a></td>
+        <td><a href="/assets/tokenizers/stats.json" download="stats.json">stats.json</a></td>
       </tr>
     </tbody>
   </table>
