@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Playing around with tokenization"
-date: 2026-07-11 18:00:00 +0530
+date: 2026-07-11 00:01:00 +0530
 tags: [tokenization, llms]
 ---
 
