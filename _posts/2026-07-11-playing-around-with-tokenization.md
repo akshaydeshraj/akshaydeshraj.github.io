@@ -11,7 +11,7 @@ I built a tokenizer because "tokens" is one of those words that feels obvious un
 
 The setup: take India's Wikipedia page in English, Hindi, Telugu, and Maithili. Convert the HTML to Markdown without quietly dropping visible text. Train one shared BPE tokenizer with a 10,000-token vocabulary.
 
-The tokenizer is deliberately boring: Hugging Face BPE, NFKC normalization, Metaspace pre-tokenization. The exported `tokenizer.json` has 10,000 entries in the actual BPE vocab. I did not use a custom encoder or added-token padding.
+The tokenizer is deliberately boring: Hugging Face BPE, no text normalizer, Metaspace pre-tokenization. The exported `tokenizer.json` has 10,000 entries in the actual BPE vocab. I did not use a custom encoder or added-token padding.
 
 The score I cared about was balance. Each language gets this ratio:
 
@@ -34,20 +34,20 @@ Faithful units are the visible pieces of the text. A word counts as one unit. A 
       <tr>
         <th scope="row">English</th>
         <td class="num">186,367</td>
-        <td class="num">112,187</td>
-        <td class="num">0.6020</td>
+        <td class="num">112,223</td>
+        <td class="num">0.6022</td>
       </tr>
       <tr>
         <th scope="row">Hindi</th>
         <td class="num">88,359</td>
-        <td class="num">53,976</td>
-        <td class="num">0.6109</td>
+        <td class="num">53,990</td>
+        <td class="num">0.6110</td>
       </tr>
       <tr>
         <th scope="row">Telugu</th>
         <td class="num">36,292</td>
-        <td class="num">21,559</td>
-        <td class="num">0.5940</td>
+        <td class="num">21,561</td>
+        <td class="num">0.5941</td>
       </tr>
       <tr>
         <th scope="row">Maithili</th>
@@ -71,11 +71,11 @@ Faithful units are the visible pieces of the text. A word counts as one unit. A 
       </tr>
       <tr>
         <th scope="row">Spread</th>
-        <td class="num">0.0168</td>
+        <td class="num">0.0169</td>
       </tr>
       <tr>
         <th scope="row">Score</th>
-        <td class="num">59,421.97</td>
+        <td class="num">59,059.32</td>
       </tr>
     </tbody>
   </table>

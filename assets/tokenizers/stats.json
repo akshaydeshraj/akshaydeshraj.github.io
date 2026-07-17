@@ -13,20 +13,20 @@
     {
       "lang": "en",
       "faithful_units": 186367,
-      "tokens": 112187,
-      "ratio": 0.6019681595990707
+      "tokens": 112223,
+      "ratio": 0.6021613268443448
     },
     {
       "lang": "hi",
       "faithful_units": 88359,
-      "tokens": 53976,
-      "ratio": 0.610871558075578
+      "tokens": 53990,
+      "ratio": 0.6110300026030172
     },
     {
       "lang": "te",
       "faithful_units": 36292,
-      "tokens": 21559,
-      "ratio": 0.5940427642455638
+      "tokens": 21561,
+      "ratio": 0.5940978728094346
     },
     {
       "lang": "mai",
@@ -35,12 +35,12 @@
       "ratio": 0.5979683195592287
     }
   ],
-  "max_ratio": 0.610871558075578,
-  "min_ratio": 0.5940427642455638,
-  "spread": 0.016828793830014233,
-  "raw_score": 59421.96512126111,
+  "max_ratio": 0.6110300026030172,
+  "min_ratio": 0.5940978728094346,
+  "spread": 0.016932129793582607,
+  "raw_score": 59059.31576186044,
   "english_penalty_factor": 1.0,
-  "final_score": 59421.96512126111,
+  "final_score": 59059.31576186044,
   "english_ok": true,
   "has_unk": false
 }
