@@ -11,7 +11,10 @@ permalink: /tags/
   <div class="tags-list" id="tags-list">
     {% assign sorted_tags = site.tags | sort %}
     {% for tag in sorted_tags %}
-      <a href="#{{ tag[0] | slugify }}" class="tag">{{ tag[0] }}</a>
+      {% assign visible_posts = tag[1] | where_exp: "post", "post.hidden != true" %}
+      {% if visible_posts.size > 0 %}
+        <a href="#{{ tag[0] | slugify }}" class="tag">{{ tag[0] }}</a>
+      {% endif %}
     {% endfor %}
   </div>
 
@@ -22,17 +25,20 @@ permalink: /tags/
 
   <div class="tags-posts">
     {% for tag in sorted_tags %}
-      <section class="tag-section" id="{{ tag[0] | slugify }}" data-tag="{{ tag[0] | slugify }}">
-        <h2 class="tag-heading">{{ tag[0] }}</h2>
-        <ul class="tag-posts-list">
-          {% for post in tag[1] %}
-            <li>
-              <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-              <time datetime="{{ post.date }}">{{ post.date | date: "%b %d, %Y" }}</time>
-            </li>
-          {% endfor %}
-        </ul>
-      </section>
+      {% assign visible_posts = tag[1] | where_exp: "post", "post.hidden != true" %}
+      {% if visible_posts.size > 0 %}
+        <section class="tag-section" id="{{ tag[0] | slugify }}" data-tag="{{ tag[0] | slugify }}">
+          <h2 class="tag-heading">{{ tag[0] }}</h2>
+          <ul class="tag-posts-list">
+            {% for post in visible_posts %}
+              <li>
+                <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+                <time datetime="{{ post.date }}">{{ post.date | date: "%b %d, %Y" }}</time>
+              </li>
+            {% endfor %}
+          </ul>
+        </section>
+      {% endif %}
     {% endfor %}
   </div>
 </div>

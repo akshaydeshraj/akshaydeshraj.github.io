@@ -3,19 +3,21 @@ layout: post
 title: "Playing around with tokenization"
 date: 2026-07-11 00:01:00 +0530
 tags: [tokenization, llms]
+hidden: true
+sitemap: false
 ---
 
-I spent some time this week on a small tokenizer puzzle: build one tokenizer for the India page on Wikipedia across English, Hindi, Telugu, and Malayalam.
+I built a tokenizer because "tokens" is one of those words that feels obvious until it touches Hindi, Telugu, URLs, brackets, and a Wikipedia table.
 
-The metric was fertility:
+The setup: take India's Wikipedia page in English, Hindi, Telugu, and Maithili. Convert the HTML to Markdown without quietly dropping visible text. Train one shared BPE tokenizer with a 10,000-token vocabulary.
 
-`fertility = tokenizer tokens / words`
+The tokenizer is deliberately boring: Hugging Face BPE, NFKC normalization, Metaspace pre-tokenization. The exported `tokenizer.json` has 10,000 entries in the actual BPE vocab. I did not use a custom encoder or added-token padding.
 
-Lower is better, but the real trap is unevenness. The final score depends on the gap between the best and worst language. English also has to stay below 1.2.
+The score I cared about was balance. Each language gets this ratio:
 
-I used BPE with byte fallback. That part is non-negotiable for me because there should be no unknown token. If the tokenizer sees a character it has not learned as a normal token, it can still encode the UTF-8 bytes.
+`ratio = tokenizer tokens / faithful units`
 
-After training the BPE, I used the remaining vocabulary budget for frequent word-shaped tokens from the same pages. That is not a general tokenizer design. It is very much shaped around the evaluation text, which is the point of the exercise.
+Faithful units are the visible pieces of the text. A word counts as one unit. A punctuation mark or symbol counts as one unit. So a Markdown link is counted as the link text plus the brackets, slashes, dots, and URL chunks around it. Slightly annoying, but fair. The tokenizer has to encode those characters too.
 
 <div class="tokenizer-tables">
   <table class="data-table numeric-table">
@@ -23,35 +25,35 @@ After training the BPE, I used the remaining vocabulary budget for frequent word
     <thead>
       <tr>
         <th scope="col">Language</th>
-        <th scope="col" class="num">Words</th>
+        <th scope="col" class="num">Faithful units</th>
         <th scope="col" class="num">Tokens</th>
-        <th scope="col" class="num">Fertility</th>
+        <th scope="col" class="num">Ratio</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <th scope="row">English</th>
-        <td class="num">10,363</td>
-        <td class="num">12,433</td>
-        <td class="num">1.1997</td>
+        <td class="num">186,367</td>
+        <td class="num">112,187</td>
+        <td class="num">0.6020</td>
       </tr>
       <tr>
         <th scope="row">Hindi</th>
-        <td class="num">15,709</td>
-        <td class="num">18,357</td>
-        <td class="num">1.1686</td>
+        <td class="num">88,359</td>
+        <td class="num">53,976</td>
+        <td class="num">0.6109</td>
       </tr>
       <tr>
         <th scope="row">Telugu</th>
-        <td class="num">7,370</td>
-        <td class="num">8,509</td>
-        <td class="num">1.1545</td>
+        <td class="num">36,292</td>
+        <td class="num">21,559</td>
+        <td class="num">0.5940</td>
       </tr>
       <tr>
-        <th scope="row">Malayalam</th>
-        <td class="num">11,191</td>
-        <td class="num">13,090</td>
-        <td class="num">1.1697</td>
+        <th scope="row">Maithili</th>
+        <td class="num">5,808</td>
+        <td class="num">3,473</td>
+        <td class="num">0.5980</td>
       </tr>
     </tbody>
   </table>
@@ -65,15 +67,15 @@ After training the BPE, I used the remaining vocabulary budget for frequent word
       </tr>
       <tr>
         <th scope="row">Unknown tokens</th>
-        <td class="num">0</td>
+        <td class="num">0 on corpus</td>
       </tr>
       <tr>
-        <th scope="row">Fertility spread</th>
-        <td class="num">0.0452</td>
+        <th scope="row">Spread</th>
+        <td class="num">0.0168</td>
       </tr>
       <tr>
         <th scope="row">Score</th>
-        <td class="num">22,122.11</td>
+        <td class="num">59,421.97</td>
       </tr>
     </tbody>
   </table>
@@ -92,5 +94,3 @@ After training the BPE, I used the remaining vocabulary budget for frequent word
     </tbody>
   </table>
 </div>
-
-The useful bit for me was seeing the split clearly: byte fallback buys coverage, BPE buys compression, and the last few thousand tokens buy balance against the specific text you expect to see.

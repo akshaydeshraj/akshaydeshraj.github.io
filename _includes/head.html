@@ -16,6 +16,9 @@
   </script>
 
   {% seo %}
+  {% if page.hidden %}
+  <meta name="robots" content="noindex, nofollow">
+  {% endif %}
 
   <!-- CSS -->
   <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">

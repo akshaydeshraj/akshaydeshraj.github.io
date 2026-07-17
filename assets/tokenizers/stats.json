@@ -1,36 +1,46 @@
 {
   "policy": "markdown",
+  "variant": "wiki_faithful_markdown",
+  "weights": {
+    "en": 2,
+    "hi": 2,
+    "te": 4,
+    "mai": 4
+  },
+  "unit_policy": "Counts each contiguous Unicode letter/mark/number run as one unit and each visible non-space punctuation/symbol character as one unit.",
   "vocab_size": 10000,
   "languages": [
     {
       "lang": "en",
-      "words": 10363,
-      "tokens": 12433,
-      "fertility": 1.1997491074013316
+      "faithful_units": 186367,
+      "tokens": 112187,
+      "ratio": 0.6019681595990707
     },
     {
       "lang": "hi",
-      "words": 15709,
-      "tokens": 18357,
-      "fertility": 1.1685657903112865
+      "faithful_units": 88359,
+      "tokens": 53976,
+      "ratio": 0.610871558075578
     },
     {
       "lang": "te",
-      "words": 7370,
-      "tokens": 8509,
-      "fertility": 1.1545454545454545
+      "faithful_units": 36292,
+      "tokens": 21559,
+      "ratio": 0.5940427642455638
     },
     {
-      "lang": "ml",
-      "words": 11191,
-      "tokens": 13090,
-      "fertility": 1.1696899294075596
+      "lang": "mai",
+      "faithful_units": 5808,
+      "tokens": 3473,
+      "ratio": 0.5979683195592287
     }
   ],
-  "max_fertility": 1.1997491074013316,
-  "min_fertility": 1.1545454545454545,
-  "spread": 0.04520365285587702,
-  "score": 22122.105998563962,
+  "max_ratio": 0.610871558075578,
+  "min_ratio": 0.5940427642455638,
+  "spread": 0.016828793830014233,
+  "raw_score": 59421.96512126111,
+  "english_penalty_factor": 1.0,
+  "final_score": 59421.96512126111,
   "english_ok": true,
   "has_unk": false
 }
